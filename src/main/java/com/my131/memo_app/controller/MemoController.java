@@ -2,6 +2,7 @@ package com.my131.memo_app.controller;
 
 import com.my131.memo_app.repository.MemoRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +16,9 @@ public class MemoController {
     }
 
     @GetMapping("/")
-    public String listMemos() {
+    public String listMemos(Model model) {
+        model.addAttribute("memos", memoRepository.findAll());
+
         return "memo-list";
     }
 
@@ -27,5 +30,13 @@ public class MemoController {
         memoRepository.save(title, content);
 
         return "redirect:/";
+    }
+
+    @PostMapping("/delete")
+    public String deleteMemo(@RequestParam int id) {
+        memoRepository.delete(id);
+
+        return "redirect:/";
+
     }
 }

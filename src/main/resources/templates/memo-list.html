@@ -15,5 +15,16 @@
   <br />
   <button type="submit">메모 추가</button>
 </form>
+  <ul>
+    <li th:each="memo: ${memos}">
+      <h3 th:text="${memo.title}"></h3>
+      <p th:text="${memo.content}"></p>
+
+      <form th:action="@{/delete}" method="post" style="display:inline;">
+        <input type = "hidden" name="id" th:value="${memo.id}" />
+        <button type="submit">삭제</button>
+      </form>
+    </li>
+  </ul>
 </body>
 </html>

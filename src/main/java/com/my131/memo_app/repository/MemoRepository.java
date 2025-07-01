@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class MemoRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -31,6 +33,13 @@ public class MemoRepository {
         jdbcTemplate.update(
                 "INSERT INTO memo (title, content) VALUES (?, ?)",
                 title, content
+        );
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update(
+                "DELETE FROM memo WHERE id = ?",
+                id
         );
     }
 }
