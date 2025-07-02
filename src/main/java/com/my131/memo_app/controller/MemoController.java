@@ -4,6 +4,7 @@ import com.my131.memo_app.repository.MemoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +23,16 @@ public class MemoController {
         return "memo-list";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editForm(
+            @PathVariable int id,
+            Model model
+    ) {
+        model.addAttribute("memo", memoRepository.findById(id));
+
+        return "memo-edit";
+    }
+
     @PostMapping("/add")
     public String addMemo(
             @RequestParam String title,
@@ -32,11 +43,21 @@ public class MemoController {
         return "redirect:/";
     }
 
+    @PostMapping("/edit")
+    public String editMemo(
+            @RequestParam int id,
+            @RequestParam String title,
+            @RequestParam String content
+    ) {
+        memoRepository.update(id,title, content);
+
+        return "redirect:/"; //edit에서 메인으로 다시 ㄱㄱ
+    }
+
     @PostMapping("/delete")
     public String deleteMemo(@RequestParam int id) {
         memoRepository.delete(id);
 
         return "redirect:/";
-
     }
 }
